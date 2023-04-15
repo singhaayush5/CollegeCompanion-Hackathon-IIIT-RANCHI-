@@ -8,7 +8,7 @@ import GradePortal from "./Component/GradeTracker/GradePortal";
 function App() {
   return (
     <div className="App">
-      <Job />
+      {/* <Job /> */}
       <GradePortal />
     </div>
   );

@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 var Grades = require("./model/grade");
+var adminuser = require("./model/admin.js");
+router.use(express.json());
 
 router.use(express.json());
 router.get("/", async (req, res) => {
@@ -8,8 +10,8 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/gradepost", async (req, res) => {
-  const { name, email, marks } = req.body;
-  if (!name || !email || !marks) {
+  const { name, email, subject, marks } = req.body;
+  if (!name || !email || !subject || !marks) {
     res.status(400).json({ error: "Please fill in all the details" });
   }
   try {
@@ -20,6 +22,7 @@ router.post("/gradepost", async (req, res) => {
     const student = new Grades({
       name,
       email,
+      subject,
       marks,
     });
     const StudGrade = await student.save();
@@ -27,21 +30,19 @@ router.post("/gradepost", async (req, res) => {
       res.status(201).json({ message: "Grade post Successful" });
     } else {
       res.status(400).json({ error: "Not Successful" });
-var adminuser = require("./model/admin.js");
-
-router.use(express.json());
+    }
+  } catch (err) {
+    console.log(err);
+  }
+});
 //homeroute
-router.get('/',(req,res)=>{
-  res.send("hello from server")
+router.get("/", (req, res) => {
+  res.send("hello from server");
 });
 
-
 //for registering user
-
-router.post('/register',async(req,res)=>{
-
-
-  const { name, email} = req.body;
+router.post("/register", async (req, res) => {
+  const { name, email } = req.body;
   if (!name || !email) {
     res.status(400).json({ error: "fill all details" });
     console.log("None of the fields can be empty");
@@ -53,7 +54,7 @@ router.post('/register',async(req,res)=>{
     }
     const user = new adminuser({
       name,
-      email
+      email,
     });
     const signUp = await user.save();
     if (signUp) {
@@ -64,11 +65,9 @@ router.post('/register',async(req,res)=>{
   } catch (err) {
     console.log(err);
   }
-})
-
-router.post('/login',async(req,res)=>{
+});
+router.post("/login", async (req, res) => {
   console.log(req.body);
 });
+
 module.exports = router;
-
-

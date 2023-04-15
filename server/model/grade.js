@@ -10,11 +10,11 @@ var Grade = new mongoose.Schema({
     required: true,
     unique: true,
   },
+  subject: [String],
   marks: {
     type: Number,
     required: true,
   },
 });
-
 const Grades = mongoose.model("grades", Grade);
 module.exports = Grades;
