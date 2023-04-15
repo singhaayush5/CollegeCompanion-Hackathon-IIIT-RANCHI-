@@ -1,5 +1,32 @@
 const express = require("express");
 const router = express.Router();
+var Grades = require("./model/grade");
+
+router.use(express.json());
+router.get("/", async (req, res) => {
+  res.send("hello from server");
+});
+
+router.post("/gradepost", async (req, res) => {
+  const { name, email, marks } = req.body;
+  if (!name || !email || !marks) {
+    res.status(400).json({ error: "Please fill in all the details" });
+  }
+  try {
+    const userExists = await Grades.findOne({ email });
+    if (userExists) {
+      res.status(400).json({ error: "User already exists" });
+    }
+    const student = new Grades({
+      name,
+      email,
+      marks,
+    });
+    const StudGrade = await student.save();
+    if (StudGrade) {
+      res.status(201).json({ message: "Grade post Successful" });
+    } else {
+      res.status(400).json({ error: "Not Successful" });
 var adminuser = require("./model/admin.js");
 
 router.use(express.json());
@@ -37,8 +64,6 @@ router.post('/register',async(req,res)=>{
   } catch (err) {
     console.log(err);
   }
-
-
 })
 
 router.post('/login',async(req,res)=>{
