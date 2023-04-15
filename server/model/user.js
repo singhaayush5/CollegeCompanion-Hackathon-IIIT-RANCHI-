@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 //const jwt = require("jsonwebtoken");
 
-const adminSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
@@ -10,11 +10,13 @@ const adminSchema = new mongoose.Schema({
   email: {
     type: String,
     required: true,
-  },
    
+  }
+ 
+ 
 });
 
 
-const adminuser = mongoose.model("ADMINUSER", adminSchema);
+const user = mongoose.model("USER", userSchema);
 
-module.exports = adminuser;
+module.exports = user;

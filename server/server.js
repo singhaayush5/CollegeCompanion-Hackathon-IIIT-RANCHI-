@@ -14,7 +14,9 @@ const connectDB = async () => {
     process.exit(1);
   }
 };
+app.use(express.json());
 app.use(require("./router"));
+
 /*
 
 const morgan = require("morgan");
