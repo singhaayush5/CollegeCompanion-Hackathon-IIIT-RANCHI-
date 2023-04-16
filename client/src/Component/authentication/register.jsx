@@ -41,7 +41,7 @@ function Signup() {
 
 
   const PostData = async (e) => {
-    console.log(user);
+   
     e.preventDefault();
 
     const { name, email, password,phone } = user;

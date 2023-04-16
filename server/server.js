@@ -1,11 +1,15 @@
 const express = require("express");
 const app = express();
+const cors = require("cors");
 const mongoose = require("mongoose");
 const PORT = process.env.PORT || 3000;
 const dotenv = require("dotenv");
 dotenv.config({ path: "./.env" });
-const bcrypt = require("bcrypt");
-const cors = require('cors');
+const options = {
+  origin: "http://127.0.0.1:5173",
+  useSuccessStatus: true,
+};
+app.use(cors(options));const bcrypt = require("bcrypt");
 
 
 const connectDB = async () => {
