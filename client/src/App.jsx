@@ -17,6 +17,7 @@ function App() {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path="/">
+      <Route path="jobs" element={<Job/>}></Route>
         <Route path="user">
           <Route path="login" element={<Login/>}></Route>
           <Route path="register" element={<Signup/>}></Route>

@@ -29,14 +29,49 @@ function Signup() {
   const [user, setUser] = useState({
     name: "",
     email: "",
-    phno: "",
     password: "",
+    phone: "",
+    
   });
 
   const handleChange = (eve) => {
     console.log(user);
     setUser({ ...user, [eve.target.name]: eve.target.value });
   };
+
+
+  const PostData = async (e) => {
+    console.log(user);
+    e.preventDefault();
+
+    const { name, email, password,phone } = user;
+    const res = await fetch("http://localhost:3000/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: name,
+        email: email,
+        password: password,
+        phone:phone,
+        
+      }),
+    });
+
+    const data = await res.json();
+
+    if (data.status === 400 || !data || data.error) {
+      window.alert("Invalid Registration");
+      console.log("Invalid Registration");
+    } else {
+      window.alert("Successfull Registration");
+      console.log("Successfull Registration");
+    }
+    
+  };
+
+
 
   return (
     <div>
@@ -66,8 +101,8 @@ function Signup() {
               <Grid xs={12} item>
                 <TextField
                   size="small"
-                  name="phno"
-                  value={user.phno}
+                  name="phone"
+                  value={user.phone}
                   onChange={handleChange}
                   label="Phone No."
                   variant="outlined"
@@ -88,19 +123,7 @@ function Signup() {
                   required
                 />
               </Grid>
-              {/* <Grid xs={12} item>
-                  <TextField
-                    size="small"
-                    name="password"
-                    value={user.password}
-                    onChange={handleChange}
-                    type="password"
-                    label="Password"
-                    variant="outlined"
-                    fullWidth
-                    required
-                  />
-                </Grid> */}
+        
               <Grid xs={12} item>
                 <FormControl sx={{ width: "100%" }} variant="outlined">
                   <InputLabel htmlFor="outlined-adornment-password">
@@ -137,6 +160,7 @@ function Signup() {
                   type="submit"
                   variant="contained"
                   fullWidth
+                  onClick={PostData}
                 >
                   Submit
                 </Button>

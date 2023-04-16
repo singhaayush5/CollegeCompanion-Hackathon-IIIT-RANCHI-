@@ -27,15 +27,37 @@ import {
     };
   
     const [user, setUser] = useState({
-      name: "",
       email: "",
-      phno: "",
       password: "",
     });
   
     const handleChange = (eve) => {
       console.log(user);
       setUser({ ...user, [eve.target.name]: eve.target.value });
+    };
+
+    const PostData = async (e) => {
+      e.preventDefault();
+      const {  email, password} = user;
+      const res = await fetch("http://localhost:3000/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email:email,
+          password:password,
+        }),
+      });
+      const data = await res.json();
+      console.log(data);
+      if (data.status === 400 || !data || data.error) {
+         console.log("not Logged In");
+      
+      } else {
+    
+        console.log("Successfully Logged In");
+      }
     };
   
     return (
@@ -102,8 +124,10 @@ import {
                     type="submit"
                     variant="contained"
                     fullWidth
+                    onClick={PostData}
                   >
                     Submit
+
                   </Button>
                 </Grid>
               </Grid>
